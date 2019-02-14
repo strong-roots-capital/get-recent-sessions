@@ -7,74 +7,11 @@ import ow from 'ow'
 import moment from 'moment'
 import { utcDate } from '@hamroctopus/utc-date'
 import firstFullWeekOfYear from '@strong-roots-capital/first-full-week-of-year'
-import {
-    inTradingviewFormat,
-    isTradingviewFormatMonths,
-    isTradingviewFormatWeeks,
-    isTradingviewFormatDays,
-    isTradingviewFormatHours,
-    isTradingviewFormatMinutes
-} from '@strong-roots-capital/is-tradingview-format'
+import { inTradingviewFormat,
+         isTradingviewFormatWeeks } from '@strong-roots-capital/is-tradingview-format'
 
-import { ArgumentError } from './argument-error'
+import { unitOfDuration, nextLargerDurationDivisor } from './utils'
 
-/**
- * Return the duration (as a `moment.unitOfTime.Base`) of a timeframe
- * in Trading View format.
- *
- * @param timeframe - Timeframe of which to determine duration
- * @returns Duration of timeframe as `moment.unitOfTime.Base`
- */
-function unitOfDuration(timeframe: string): moment.unitOfTime.Base {
-
-    const durationTranslations: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
-        [isTradingviewFormatMinutes, 'minute'],
-        [isTradingviewFormatHours, 'hour'],
-        [isTradingviewFormatDays, 'day'],
-        [isTradingviewFormatWeeks, 'week'],
-        [isTradingviewFormatMonths, 'month']
-    ]
-    for (const [isTimeframe, duration] of durationTranslations) {
-        if (isTimeframe(timeframe)) {
-            return duration
-        }
-    }
-
-    /**
-     * Note: this statement should never run. If you are seeing this
-     * error, the argument validation above is incorrect
-     */
-    throw new ArgumentError(`Cannot interpret session interval '${timeframe}'`, unitOfDuration)
-}
-
-/**
- * Return the large-duration which Trading View uses to align
- * small-durations.
- *
- * @param timeframe - Duration to use as small-duration
- * @returns Duration used to align units of `timeframe`
- */
-function nextLargerDurationDivisor(timeframe: string): moment.unitOfTime.Base {
-
-    const nextLargerDurationDivisor: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
-        [isTradingviewFormatMinutes, 'day'],
-        [isTradingviewFormatHours, 'day'],
-        [isTradingviewFormatDays, 'year'],
-        [isTradingviewFormatWeeks, 'year'],
-        [isTradingviewFormatMonths, 'year']
-    ]
-    for (const [isTimeframe, nextLargerDuration] of nextLargerDurationDivisor) {
-        if (isTimeframe(timeframe)) {
-            return nextLargerDuration
-        }
-    }
-
-    /**
-     * Note: this statement should never run. If you are seeing this
-     * error, the argument validation above is incorrect
-     */
-    throw new ArgumentError(`Cannot interpret session interval '${timeframe}'`, getRecentSessions)
-}
 /**
  * Return several `timeframe` session-boundaries preceding `from`.
  *

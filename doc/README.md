@@ -42,7 +42,7 @@ Related
 
 ▸ **getRecentSessions**(timeframe: *`string`*, from?: *`Date`*): `number`[]
 
-*Defined in [get-recent-sessions.ts:93](https://github.com/strong-roots-capital/get-recent-sessions/blob/02d5917/src/get-recent-sessions.ts#L93)*
+*Defined in [get-recent-sessions.ts:30](https://github.com/strong-roots-capital/get-recent-sessions/blob/91f5dc0/src/get-recent-sessions.ts#L30)*
 
 Return several `timeframe` session-boundaries preceding `from`.
 

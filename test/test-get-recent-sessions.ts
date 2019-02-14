@@ -3,65 +3,15 @@ import test from 'ava'
 import * as moment from 'moment'
 import firstFullWeekOfYear from '@strong-roots-capital/first-full-week-of-year'
 import listTradingviewFormats from '@strong-roots-capital/list-tradingview-formats'
-import {
-    isTradingviewFormatMonths,
-    isTradingviewFormatWeeks,
-    isTradingviewFormatDays,
-    isTradingviewFormatHours,
-    isTradingviewFormatMinutes
-} from '@strong-roots-capital/is-tradingview-format'
+import { isTradingviewFormatWeeks } from '@strong-roots-capital/is-tradingview-format'
 
-import { ArgumentError } from '../src/argument-error'
+import { unitOfDuration, nextLargerDurationDivisor } from '../src/utils'
 
 /**
  * Library under test
  */
 
 import getRecentSessions from '../src/get-recent-sessions'
-
-function unitOfDuration(timeframe: string): moment.unitOfTime.Base {
-
-    const durationTranslations: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
-        [isTradingviewFormatMinutes, 'minute'],
-        [isTradingviewFormatHours, 'hour'],
-        [isTradingviewFormatDays, 'day'],
-        [isTradingviewFormatWeeks, 'week'],
-        [isTradingviewFormatMonths, 'month']
-    ]
-    for (const [isTimeframe, duration] of durationTranslations) {
-        if (isTimeframe(timeframe)) {
-            return duration
-        }
-    }
-
-    /**
-     * Note: this statement should never run. If you are seeing this
-     * error, the argument validation above is incorrect
-     */
-    throw new ArgumentError(`Cannot interpret session interval '${timeframe}'`, unitOfDuration)
-}
-
-function nextLargerDurationDivisor(timeframe: string): moment.unitOfTime.Base {
-
-    const nextLargerDurationDivisor: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
-        [isTradingviewFormatMinutes, 'day'],
-        [isTradingviewFormatHours, 'day'],
-        [isTradingviewFormatDays, 'year'],
-        [isTradingviewFormatWeeks, 'year'],
-        [isTradingviewFormatMonths, 'year']
-    ]
-    for (const [isTimeframe, nextLargerDuration] of nextLargerDurationDivisor) {
-        if (isTimeframe(timeframe)) {
-            return nextLargerDuration
-        }
-    }
-
-    /**
-     * Note: this statement should never run. If you are seeing this
-     * error, the argument validation above is incorrect
-     */
-    throw new ArgumentError(`Cannot interpret session interval '${timeframe}'`, mostRecentSessions)
-}
 
 function mostRecentSessions(timeframe: string, from: Date): number[] {
 
