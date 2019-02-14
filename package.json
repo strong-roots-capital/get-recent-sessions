@@ -1,6 +1,6 @@
 {
   "name": "@strong-roots-capital/get-recent-sessions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get boundaries between recent timeframes",
   "main": "dist/get-recent-sessions.js",
   "types": "dist/get-recent-sessions.d.ts",
