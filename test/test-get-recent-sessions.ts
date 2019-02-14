@@ -55,3 +55,7 @@ const testRecentSessionsIncludes = (timeframe: string, from: Date) => {
 for (const format of listTradingviewFormats()) {
     testRecentSessionsIncludes(format, new Date())
 }
+
+test('should use current date when `from` is omitted', t => {
+    t.deepEqual(getRecentSessions('1W', moment.utc().toDate()), getRecentSessions('1W'))
+})
