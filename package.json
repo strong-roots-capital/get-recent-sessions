@@ -5,7 +5,9 @@
   "main": "dist/get-recent-sessions.js",
   "types": "dist/get-recent-sessions.d.ts",
   "scripts": {
-    "install": "tsc",
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run clean && tsc",
+    "clean": "rm -rf  dist",
     "ava": "ava -s -v",
     "watch:ava": "nodemon -e 'ts json' -x 'npm run ava || true'",
     "test": "nyc ava",
@@ -16,6 +18,9 @@
     "push-with-tags": "git push origin master && git push origin --tags",
     "push-and-publish": "npm run push-with-tags && npm publish"
   },
+  "files": [
+    "dist/"
+  ],
   "husky": {
     "hooks": {
       "pre-push": "npm run typedoc && git add doc && (git commit -m 'Update documentation' || true)"
@@ -42,12 +47,11 @@
     "@hamroctopus/utc-date": "^1.0.5",
     "@strong-roots-capital/first-full-week-of-year": "^1.0.0",
     "@strong-roots-capital/is-tradingview-format": "^1.2.2",
-    "@types/node": "^10.12.18",
     "moment": "^2.24.0",
-    "ow": "^0.12.0",
-    "typescript": "^3.2.2"
+    "ow": "^0.12.0"
   },
   "devDependencies": {
+    "@types/node": "^10.12.18",
     "@strong-roots-capital/list-tradingview-formats": "^1.0.2",
     "ava": "^1.0.0",
     "codecov": "^3.1.0",
@@ -56,7 +60,8 @@
     "tap-nyc": "^1.0.3",
     "ts-node": "^7.0.1",
     "typedoc": "^0.13.0",
-    "typedoc-plugin-markdown": "^1.1.20"
+    "typedoc-plugin-markdown": "^1.1.20",
+    "typescript": "^3.2.2"
   },
   "ava": {
     "compileEnhancements": false,
