@@ -1,6 +1,6 @@
 # get-recent-sessions [![Build status](https://travis-ci.org/strong-roots-capital/get-recent-sessions.svg?branch=master)](https://travis-ci.org/strong-roots-capital/get-recent-sessions) [![npm version](https://img.shields.io/npm/v/@strong-roots-capital/get-recent-sessions.svg)](https://npmjs.org/package/@strong-roots-capital/get-recent-sessions) [![codecov](https://codecov.io/gh/strong-roots-capital/get-recent-sessions/branch/master/graph/badge.svg)](https://codecov.io/gh/strong-roots-capital/get-recent-sessions)
 
-> Get boundaries between recent timeframes
+> Get boundaries between recent timeframes (inclusive)
 
 ## Install
 
