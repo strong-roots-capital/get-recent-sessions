@@ -2,35 +2,26 @@
  * @hidden
  */
 
-import ow from 'ow'
-import * as moment from 'moment'
-
 import {
-    inTradingviewFormat,
-    isTradingviewFormatMonths,
-    isTradingviewFormatWeeks,
     isTradingviewFormatDays,
     isTradingviewFormatHours,
     isTradingviewFormatMinutes
 } from '@strong-roots-capital/is-tradingview-format'
 
-/**
- * Return the duration (as a `moment.unitOfTime.Base`) of a timeframe
- * in Trading View format.
- *
- * @param timeframe - Timeframe of which to determine duration
- * @returns Duration of timeframe as `moment.unitOfTime.Base`
- */
-export function unitOfDuration(timeframe: string): moment.unitOfTime.Base {
 
-    ow(timeframe, ow.string.is(inTradingviewFormat))
+export type UnitOfTime =
+    | 'month'
+    | 'day'
+    | 'hour'
+    | 'minute'
 
-    const durationTranslations: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
+
+export function timeUnitOfTimeframe(timeframe: string): UnitOfTime {
+
+    const durationTranslations: [(s: string) => boolean, UnitOfTime][] = [
         [isTradingviewFormatMinutes, 'minute'],
         [isTradingviewFormatHours, 'hour'],
         [isTradingviewFormatDays, 'day'],
-        [isTradingviewFormatWeeks, 'week'],
-        // [isTradingviewFormatMonths, 'month']
     ]
     for (const [isTimeframe, duration] of durationTranslations) {
         if (isTimeframe(timeframe)) {
@@ -42,22 +33,14 @@ export function unitOfDuration(timeframe: string): moment.unitOfTime.Base {
 }
 
 /**
- * Return the large-duration which Trading View uses to align
- * small-durations.
- *
- * @param timeframe - Duration to use as small-duration
- * @returns Duration used to align units of `timeframe`
+ * Return the large-duration timeframe Trading View uses to align
+ * small durations.
  */
-export function nextLargerDurationDivisor(timeframe: string): moment.unitOfTime.Base {
+export function timeframeDivisor(timeframe: string): 'day' | 'year' {
 
-    ow(timeframe, ow.string.is(inTradingviewFormat))
-
-    const nextLargerDurationDivisor: [ (s: string) => boolean, moment.unitOfTime.Base ][] = [
+    const nextLargerDurationDivisor: [(s: string) => boolean, 'day' | 'year'][] = [
         [isTradingviewFormatMinutes, 'day'],
         [isTradingviewFormatHours, 'day'],
-        // [isTradingviewFormatDays, 'year'],
-        // [isTradingviewFormatWeeks, 'year'],
-        // [isTradingviewFormatMonths, 'year']
     ]
     for (const [isTimeframe, nextLargerDuration] of nextLargerDurationDivisor) {
         if (isTimeframe(timeframe)) {
@@ -67,3 +50,5 @@ export function nextLargerDurationDivisor(timeframe: string): moment.unitOfTime.
 
     return 'year'
 }
+
+//  LocalWords:  durations
